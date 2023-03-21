@@ -51,6 +51,11 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     EditText input;
     int start_media,end_media;
+
+    MediaPlayer mp0,mp1,mp2,mp3,mp4,mp5,mp6,mp7,mp8,mp9;
+    int dv=0,c=0,tr=0;
+    String sc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,65 +162,246 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     // đọc số
     private void doc_so(){
-        end_media=1000;
-        // vị trí số đọc
-        switch (so_chinh){
+        anh_xa_mp();
+        MediaPlayer mp_xc=MediaPlayer.create(this,R.raw.soruce_xin_moi_so);
+        sc=String.valueOf(so_chinh);
+
+
+        mp_xc.start();
+        mp_xc.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (so_chinh<10){
+                    dv=so_chinh;
+                    mp_don_vi();
+                }
+                else if (so_chinh>=10||so_chinh<=99){
+                    c=Integer.valueOf((String) sc.substring(0,1));
+                    dv=Integer.valueOf((String) sc.substring(1,2));
+                    mp_chuc();
+                }
+
+            }
+        });
+
+    }
+
+    private void mp_chuc(){
+        anh_xa_mp();
+        switch (c){
             case 1:
-                start_media=3000;
+                mp1.start();
+                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 2:
-                start_media=4000;
+                mp2.start();
+                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 3:
-                start_media=5500;
+                mp3.start();
+                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp3.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 4:
-                start_media=6500;
+                mp4.start();
+                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp4.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 5:
-                start_media=8000;
+                mp5.start();
+                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp5.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 6:
-                start_media=9000;
+                mp6.start();
+                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp6.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 7:
-                start_media=10500;
+                mp7.start();
+                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp7.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 8:
-                start_media=11500;
+                mp8.start();
+                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp8.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
             case 9:
-                start_media=12500;
+                mp9.start();
+                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp9.stop();
+                        mp_don_vi();
+                    }
+                });
                 break;
-            case 10:
-                start_media=14000;
+            default:
+                mp_don_vi();
                 break;
         }
+    }
 
+    private void mp_don_vi(){
+        anh_xa_mp();
+        switch (dv){
+            case 0:
+                mp0.start();
+                mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp0.stop();
+                    }
+                });
+                break;
+            case 1:
+                mp1.start();
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp1.stop();
+//                    }
+//                });
+                break;
+            case 2:
+                mp2.start();
+//                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp2.stop();
+//                    }
+//                });
+                break;
+            case 3:
+                mp3.start();
+//                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp3.stop();
+//                    }
+//                });
+                break;
+            case 4:
+                mp4.start();
+//                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp4.stop();
+//                    }
+//                });
+                break;
+            case 5:
+                mp5.start();
+//                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp5.stop();
+//                    }
+//                });
+                break;
+            case 6:
+                mp6.start();
+//                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp6.stop();
+//                    }
+//                });
+                break;
+            case 7:
+                mp7.start();
+//                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp7.stop();
+//                    }
+//                });
+                break;
+            case 8:
+                mp8.start();
+//                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp8.stop();
+//                    }
+//                });
+                break;
+            case 9:
+                mp9.start();
+//                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp9.stop();
+//                    }
+//                });
+                break;
+        }
+    }
+    private void anh_xa_mp(){
 
-        mediaPlayer=MediaPlayer.create(this,R.raw.sound_1_10);
-//        try {
-            mediaPlayer.seekTo(start_media);
-            mediaPlayer.start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        //media
+        mp0=MediaPlayer.create(this,R.raw.soruce_0);
+        mp1=MediaPlayer.create(this,R.raw.soruce_1);
+        mp2=MediaPlayer.create(this,R.raw.soruce_2);
+        mp3=MediaPlayer.create(this,R.raw.soruce_3);
+        mp4=MediaPlayer.create(this,R.raw.soruce_4);
+        mp5=MediaPlayer.create(this,R.raw.soruce_5);
+        mp6=MediaPlayer.create(this,R.raw.soruce_6);
+        mp7=MediaPlayer.create(this,R.raw.soruce_7);
+        mp8=MediaPlayer.create(this,R.raw.soruce_8);
+        mp9=MediaPlayer.create(this,R.raw.soruce_9);
 
-        //stop media
-        Handler  handler = new Handler();
-        final int[] i = {0};
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                i[0] = i[0] +1;
-                if (end_media== i[0]) {
-                    mediaPlayer.stop();
-                    handler.removeMessages(0);
-                }
-                handler.postDelayed(this, 1);
-            }
-        };
-        handler.postDelayed(r, 0);
+//        mp0.reset();
+//        mp1.reset();
+//        mp2.reset();
+//        mp3.reset();
+//        mp4.reset();
+//        mp5.reset();
+//        mp6.reset();
+//        mp7.reset();
+//        mp8.reset();
+//        mp9.reset();
     }
     //----------------------------------------------------------------------------------------------
 
