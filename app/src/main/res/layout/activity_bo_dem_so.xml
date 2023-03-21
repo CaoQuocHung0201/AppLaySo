@@ -10,14 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -25,26 +26,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID: "
+                    android:text="Tên"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textStyle="italic"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
+                    android:textColor="#0B5FC6"
                     android:id="@+id/bds_id"/>
             </LinearLayout>
             <ImageView
+                android:background="#EDA9CF"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/ic_output"
                 android:id="@+id/bds_ic_out"/>
             <ImageView
+                android:layout_marginLeft="10dp"
+                android:background="#EDA9CF"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -57,19 +54,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đã xử lý: "
+                android:text="Đã xử lý:"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textStyle="italic"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="#0B5FC6"
                 android:id="@+id/bds_da_xu_ly"/>
         </LinearLayout>
 
@@ -77,21 +68,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hàng chờ: "
+                android:text="Hàng đợi"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textStyle="italic"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="#0B5FC6"
                 android:id="@+id/bds_hang_cho"/>
         </LinearLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày:"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#0B5FC6"
+            android:id="@+id/txtDate"/>
     </LinearLayout>
 
     <LinearLayout
@@ -99,14 +93,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ff0000"
             android:text="00"
+            android:layout_marginBottom="50dp"
             android:textStyle="bold"
             android:textSize="90sp"
             android:id="@+id/bds_number"/>
@@ -116,6 +110,7 @@
             android:gravity="center"
             android:layout_marginTop="50dp" >
             <Button
+                android:background="@drawable/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -123,6 +118,8 @@
                 android:id="@+id/bds_nhac_lai"
                 />
             <Button
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

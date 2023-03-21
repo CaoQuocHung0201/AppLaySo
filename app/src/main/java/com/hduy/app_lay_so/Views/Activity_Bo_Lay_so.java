@@ -39,7 +39,7 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     TextView txt_bls_num,txt_bls_time;
     Button btn_bls_lay_so;
     int so_chinh,so_da_xu_ly,hang_cho_so;
-    String id,time,print_id_bt;
+    String id,print_id_bt;
 
     PrintBluetooth printBluetooth;
     @Override
@@ -56,47 +56,41 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
             public void onClick(View v) {
                 get_DatabaseReference();
                 get_data_sqlite();
-                tinh_so();
-                set_so();
+
+                so_chinh=so_chinh+1;
+                hang_cho_so=hang_cho_so+1;
+                txt_bls_num.setText(String.valueOf(so_chinh));
+
                 up_DatabaseReference();
             }
         });
     }
 
-    //sử lý số
-    private void set_so(){
-        txt_bls_num.setText(String.valueOf(so_chinh));
-    }
 
-    private void tinh_so(){// khi nhấn số kế tiếp sẽ tính toán thay đổi giá trị cho phù hợp
-        so_chinh=so_chinh+1;
-        hang_cho_so=hang_cho_so+1;
-    }
 
     //----------------------------------------------------------------------------------------------
 
     //in bluetooth
-    private void print_bt(){
-        PrintBluetooth.printer_id=print_id_bt;
-        try {
-            printBluetooth.findBT();
-            printBluetooth.openBT();
-            printBluetooth.printText(String.valueOf(so_chinh),time);
-            printBluetooth.closeBT();
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
-    }
+//    private void print_bt(){
+//        PrintBluetooth.printer_id=print_id_bt;
+//        try {
+//            printBluetooth.findBT();
+//            printBluetooth.openBT();
+//            printBluetooth.printText(String.valueOf(so_chinh),time);
+//            printBluetooth.closeBT();
+//        }catch (IOException ex){
+//            ex.printStackTrace();
+//        }
+//    }
 
     //Lấy time hiện hành
     private void get_time(){
         Handler  handler = new Handler();
-
         final Runnable r = new Runnable() {
             public void run() {
                 String currentDate = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                txt_bls_time.setText(currentDate);
-                time=String.valueOf(currentDate);
+                txt_bls_time.setText("Thời gian: "+currentDate);
+                //time=String.valueOf(currentDate);
                 handler.postDelayed(this, 1000);
             }
         };
@@ -117,11 +111,12 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         mydata.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Database_setting database_setting=snapshot.getValue(Database_setting.class);
+                Database_setting database_setting  = snapshot.getValue(Database_setting.class);
                 so_chinh=database_setting.getSo_chinh_bls();
                 hang_cho_so=database_setting.getHang_cho_so();
                 so_da_xu_ly=database_setting.getSo_da_xu_ly();
-                set_so();
+
+                txt_bls_num.setText(String.valueOf(so_chinh));
             }
 
             @Override

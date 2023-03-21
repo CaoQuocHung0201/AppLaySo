@@ -41,15 +41,14 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     DatabaseReference mydata;
     SQLite sqLite= new SQLite(this, Var.Name_databasae_sqlite,null,1);
 
-    TextView txt_bds_id,txt_bds_da_xu_ly,txt_bds_hang_cho,txt_bds_num;
+    TextView txt_bds_id,txt_bds_da_xu_ly,txt_bds_hang_cho,txt_bds_num, txtDate;
     Button btn_bds_nhac_lai,btn_bds_next;
     ImageView imgv_bds_ic_setting,imgv_bds_ic_out;
 
-    int tong_so,so_da_xu_ly,hang_cho_so,so_chinh;
+    int so_da_xu_ly,hang_cho_so,so_chinh;
     String id;
     MediaPlayer mediaPlayer;
 
-    EditText input;
     int start_media,end_media;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +58,11 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         anhxa();
         get_data_sqlite();
         get_DatabaseReference();
+        get_time();
 
         btn_bds_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ktr_het_so();
                 tinh_so();
                 set_so();
                 cd_btn_bds_next();
@@ -130,7 +129,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         Cursor getdata = sqLite.GetData("select * from "+Var.Name_table_sqlite);
         while (getdata.moveToNext()){
             id=getdata.getString(0);
-            txt_bds_id.setText(getdata.getString(0));
+            txt_bds_id.setText("Tên: "+id);
         }
     }
 
@@ -221,8 +220,8 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     //sử lý số
     private void set_so(){
-        txt_bds_da_xu_ly.setText(String.valueOf(so_da_xu_ly));
-        txt_bds_hang_cho.setText(String.valueOf(hang_cho_so));
+        txt_bds_da_xu_ly.setText("Đã xử lý: "+String.valueOf(so_da_xu_ly));
+        txt_bds_hang_cho.setText("Hàng đợi: "+String.valueOf(hang_cho_so));
         txt_bds_num.setText(String.valueOf(so_chinh));
     }
 
@@ -311,5 +310,18 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         imgv_bds_ic_out=findViewById(R.id.bds_ic_out);
         btn_bds_next=findViewById(R.id.bds_next_num);
         btn_bds_nhac_lai=findViewById(R.id.bds_nhac_lai);
+        txtDate = findViewById(R.id.txtDate);
+    }
+    private void get_time(){
+        Handler  handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                txtDate.setText("Ngày: "+currentDate);
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.postDelayed(r, 0);
     }
 }

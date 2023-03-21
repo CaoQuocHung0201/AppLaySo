@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         sqLite.QueryData(Var.Table_sqlite);
         Cursor getdata = sqLite.GetData("select * from "+Var.Name_table_sqlite);
 
-        if(!getdata.moveToLast())// nếu rỗng hoặc chưa có settring sẻ chuyển đến trang setting
+        if(!getdata.moveToLast())// nếu rỗng hoặc chưa có setting sẻ chuyển đến trang setting
         {
             finish();
             startActivity(new Intent(MainActivity.this, Activity_Setting.class));

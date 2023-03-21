@@ -111,7 +111,7 @@ public class Activity_Setting extends AppCompatActivity {
             kt=true;
         }
         if (txt_id.getText().toString().trim().equals("")){
-            Toast.makeText(this, "Yêu cầu nhập id", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Yêu cầu nhập tên", Toast.LENGTH_SHORT).show();
             kt=false;
         }
         else {
@@ -195,8 +195,9 @@ public class Activity_Setting extends AppCompatActivity {
             if(!getdata.getString(0).isEmpty()){
                 txt_id.setEnabled(false);
             }
-            txt_id.setText(getdata.getString(0));
             id=getdata.getString(0);
+            txt_id.setText(id);
+
             if (getdata.getString(2).equals(Var.rad_bds)) {
                 rad_dem_so.setChecked(true);
                 Trang_thai=Var.rad_bds;
@@ -217,7 +218,6 @@ public class Activity_Setting extends AppCompatActivity {
                 Database_setting database_setting=snapshot.getValue(Database_setting.class);
                 txt_printid.setText(database_setting.getIpPrint());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
