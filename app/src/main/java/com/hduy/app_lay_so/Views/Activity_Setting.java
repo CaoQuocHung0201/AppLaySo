@@ -3,6 +3,8 @@ package com.hduy.app_lay_so.Views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.hduy.app_lay_so.Controller.Check_internet;
 import com.hduy.app_lay_so.Models.Database_setting;
 import com.hduy.app_lay_so.Models.SQLite;
 import com.hduy.app_lay_so.Models.Var;
@@ -50,6 +53,22 @@ public class Activity_Setting extends AppCompatActivity {
         anhxa();
         select_sqlite();
         get_DatabaseReference();
+
+        // kiểm tra check internet
+        if (Check_internet.isNetworkAvaliable(this)==false){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(Activity_Setting.this);
+            dialog.setTitle("Thông báo");
+            dialog.setMessage("Không có kết nối wifi!");
+            dialog.setCancelable(true);
+            dialog.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dialog.show();
+        }
+
         btn_xn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,8 +234,10 @@ public class Activity_Setting extends AppCompatActivity {
         mydata.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Database_setting database_setting=snapshot.getValue(Database_setting.class);
-                txt_printid.setText(database_setting.getIpPrint());
+                if (snapshot.getValue()!=null){
+                    Database_setting database_setting=snapshot.getValue(Database_setting.class);
+                    txt_printid.setText(database_setting.getIpPrint());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.ValueEventRegistration;
+import com.hduy.app_lay_so.Controller.Check_internet;
 import com.hduy.app_lay_so.Models.Database_setting;
 import com.hduy.app_lay_so.Models.SQLite;
 import com.hduy.app_lay_so.Models.Var;
@@ -65,6 +66,21 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         get_data_sqlite();
         get_DatabaseReference();
         get_time();
+
+        // kiểm tra check internet
+        if (Check_internet.isNetworkAvaliable(this)==false){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(Activity_Bo_dem_so.this);
+            dialog.setTitle("Thông báo");
+            dialog.setMessage("Không có kết nối wifi!");
+            dialog.setCancelable(true);
+            dialog.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dialog.show();
+        }
 
         btn_bds_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,16 +148,23 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         mydata.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Database_setting database_setting=snapshot.getValue(Database_setting.class);
-                so_chinh=database_setting.getSo_chinh_bds();
-                hang_cho_so=database_setting.getHang_cho_so();
-                so_da_xu_ly=database_setting.getSo_da_xu_ly();
-                set_so();
+                if (snapshot.getValue()==null){
+                    finish();
+                    startActivity(new Intent(Activity_Bo_dem_so.this,Activity_Setting.class));
+                }
+                else{
+                    Database_setting database_setting=snapshot.getValue(Database_setting.class);
+                    so_chinh=database_setting.getSo_chinh_bds();
+                    hang_cho_so=database_setting.getHang_cho_so();
+                    so_da_xu_ly=database_setting.getSo_da_xu_ly();
+                    set_so();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                finish();
+                startActivity(new Intent(Activity_Bo_dem_so.this,Activity_Setting.class));
             }
         });
     }
@@ -151,7 +174,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     // đọc số
     private void doc_so(){
         anh_xa_mp();
-        MediaPlayer mp_xc=MediaPlayer.create(this,R.raw.soruce_xin_moi_so);
+        MediaPlayer mp_xc=MediaPlayer.create(this,R.raw.source_xmps);
         sc=String.valueOf(so_chinh);
 
 
@@ -270,9 +293,6 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                     }
                 });
                 break;
-            default:
-                mp_chuc();
-                break;
         }
     }
 
@@ -376,9 +396,6 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                     }
                 });
                 break;
-            default:
-                mp_don_vi();
-                break;
         }
     }
 
@@ -390,17 +407,16 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
             case 1:
+                mp1.start();
                 mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -409,8 +425,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -419,8 +434,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -429,8 +443,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -439,8 +452,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -449,8 +461,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -459,8 +470,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -469,8 +479,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
@@ -479,15 +488,26 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btn_bds_next.setEnabled(true);
-                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                        mp_cuoi();
                     }
                 });
                 break;
         }
     }
-    private void anh_xa_mp(){
 
+    private void mp_cuoi(){
+        MediaPlayer mediaPlayer_cuoi=MediaPlayer.create(this,R.raw.source_dcs);
+        mediaPlayer_cuoi.start();
+        mediaPlayer_cuoi.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                btn_bds_next.setEnabled(true);
+                btn_bds_next.setBackgroundResource(R.drawable.button);
+            }
+        });
+    }
+
+    private void anh_xa_mp(){
         //media
         mp0=MediaPlayer.create(this,R.raw.soruce_0);
         mp1=MediaPlayer.create(this,R.raw.soruce_1);
