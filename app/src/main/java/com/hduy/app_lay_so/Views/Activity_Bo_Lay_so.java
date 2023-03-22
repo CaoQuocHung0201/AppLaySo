@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.print.PrinterCapabilitiesInfo;
 import android.util.Log;
 import android.view.View;
@@ -50,7 +51,23 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bo_lay_so);
-
+//        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+//        if (SDK_INT > 8)
+//        {
+//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//            StrictMode.setThreadPolicy(policy);
+//            //your codes here
+//            //luôn sáng màn hình
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//            //ẩn thanh thông báo
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//
+//            anhxa();
+//            get_time();
+//            get_data_sqlite();
+//            get_DatabaseReference();
+//
+//        }
         //luôn sáng màn hình
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //ẩn thanh thông báo
@@ -64,22 +81,30 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         btn_bls_lay_so.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                get_DatabaseReference();
-                get_data_sqlite();
+                int SDK_INT = android.os.Build.VERSION.SDK_INT;
+                if (SDK_INT > 8)
+                {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                            .permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                    //your codes here
+                    get_DatabaseReference();
+                    get_data_sqlite();
 
-                so_chinh=so_chinh+1;
-                hang_cho_so=hang_cho_so+1;
-                txt_bls_num.setText(String.valueOf(so_chinh));
-                up_DatabaseReference();
+                    so_chinh=so_chinh+1;
+                    hang_cho_so=hang_cho_so+1;
+                    txt_bls_num.setText(String.valueOf(so_chinh));
+                    up_DatabaseReference();
+                    printNumberSocket();
 
-
-
+                }
             }
         });
     }
+
     private void printNumberSocket(){
         // Get the printer's IP address and port number
-        String ipAddress = "192.168.1.100"; // replace with your printer's IP address
+        String ipAddress = "192.168.10.100"; // replace with your printer's IP address
         int portNumber = 9100; // default port number for most printers
 
         try {
@@ -90,17 +115,15 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
             OutputStream outputStream = printerSocket.getOutputStream();
 
             // Print 10 ascending order numbers
-            for (int i = 1; i <= 10; i++) {
-                // Convert the number to a byte array
-                String numberString = String.valueOf(i);
-                byte[] numberBytes = numberString.getBytes();
 
-                // Send the byte array to the printer
-                outputStream.write(numberBytes);
+            String txt="-------------------\n";
+            txt += "Thời gian: "+1+"\n";
+            txt += "Số thứ tự: "+3+"\n";
+            txt +="-------------------\n";
 
-                // Print a newline character after each number
-                outputStream.write("\n".getBytes());
-            }
+            byte[] numberBytes = txt.getBytes();
+            outputStream.write(numberBytes);
+            outputStream.write("\n".getBytes());
 
             // Close the output stream and socket
             outputStream.close();
