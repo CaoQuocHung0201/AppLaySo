@@ -3,6 +3,7 @@ package com.hduy.app_lay_so.Views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.print.PrinterCapabilitiesInfo;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +28,8 @@ import com.hduy.app_lay_so.Models.Var;
 import com.hduy.app_lay_so.R;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,7 +41,7 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     DatabaseReference mydata;
 
     TextView txt_bls_num,txt_bls_time;
-    Button btn_bls_lay_so;
+    TextView btn_bls_lay_so;
     int so_chinh,so_da_xu_ly,hang_cho_so;
     String id,print_id_bt;
 
@@ -46,6 +50,12 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bo_lay_so);
+
+        //luôn sáng màn hình
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //ẩn thanh thông báo
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         anhxa();
         get_time();
         get_data_sqlite();
@@ -60,10 +70,47 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
                 so_chinh=so_chinh+1;
                 hang_cho_so=hang_cho_so+1;
                 txt_bls_num.setText(String.valueOf(so_chinh));
-
                 up_DatabaseReference();
+
+
+
             }
         });
+    }
+    private void printNumberSocket(){
+        // Get the printer's IP address and port number
+        String ipAddress = "192.168.1.100"; // replace with your printer's IP address
+        int portNumber = 9100; // default port number for most printers
+
+        try {
+            // Create a socket connection to the printer
+            Socket printerSocket = new Socket(ipAddress, portNumber);
+
+            // Get the output stream from the socket
+            OutputStream outputStream = printerSocket.getOutputStream();
+
+            // Print 10 ascending order numbers
+            for (int i = 1; i <= 10; i++) {
+                // Convert the number to a byte array
+                String numberString = String.valueOf(i);
+                byte[] numberBytes = numberString.getBytes();
+
+                // Send the byte array to the printer
+                outputStream.write(numberBytes);
+
+                // Print a newline character after each number
+                outputStream.write("\n".getBytes());
+            }
+
+            // Close the output stream and socket
+            outputStream.close();
+            printerSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void printShareAPI(){
+
     }
 
 
@@ -143,4 +190,5 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         btn_bls_lay_so=findViewById(R.id.bls_lay_so);
         printBluetooth=new PrintBluetooth();
     }
+
 }

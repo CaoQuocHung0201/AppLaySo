@@ -14,7 +14,7 @@
         android:layout_marginTop="40dp"
         android:text="Cài đặt hệ thống"
         android:textColor="#0C2A87"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,11 +25,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="112dp"
         android:layout_marginEnd="50dp"
         android:hint="Nhập tên"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -39,93 +39,106 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="124dp"
         android:text="Tên: "
         android:textColor="#3F95AA"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/setting_id_print_bt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="50dp"
+        android:hint="Nhập IP thiết bị"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/setting_id"
+        app:layout_constraintTop_toBottomOf="@+id/setting_id" />
 
     <TextView
         android:id="@+id/labelPrintId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="100dp"
         android:text="Máy in: "
         android:textColor="#3F95AA"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <EditText
-        android:id="@+id/setting_id_print_bt"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="50dp"
-        android:hint="Nhập IP thiết bị"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/setting_id"
-        app:layout_constraintTop_toBottomOf="@+id/setting_id" />
-
-    <Button
-        android:id="@+id/setting_btn_xn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/button"
-        android:backgroundTint="#E91E63"
-        android:backgroundTintMode="src_in"
-        android:text="Xác nhận"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/setting_btn_huy"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:background="@drawable/button"
-        android:id="@+id/setting_btn_huy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hủy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/setting_btn_xn"
-        app:layout_constraintTop_toTopOf="@+id/setting_btn_xn" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_radio_group">
+
+        <TextView
+            android:id="@+id/setting_btn_xn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/button"
+            android:backgroundTintMode="src_in"
+            android:padding="15dp"
+            android:text="Xác nhận"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/setting_btn_huy"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button"
+            android:padding="15dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Hủy"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <RadioGroup
 
         android:id="@+id/setting_radio_group"
-        android:layout_width="266dp"
-        android:layout_height="111dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="309dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="70dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setting_id_print_bt">
 
         <RadioButton
-            android:textColor="#B50B5A"
             android:id="@+id/setting_rad_bd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bộ đếm số"
-            android:textSize="20sp" />
+            android:textColor="#B50B5A"
+            android:textSize="25sp" />
 
         <RadioButton
-            android:textColor="#B50B5A"
             android:id="@+id/setting_rad_bl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="Bộ lấy số"
-            android:textSize="20sp" />
+            android:textColor="#B50B5A"
+            android:textSize="25sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

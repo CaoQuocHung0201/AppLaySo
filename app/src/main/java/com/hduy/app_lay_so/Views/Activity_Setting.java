@@ -34,7 +34,7 @@ public class Activity_Setting extends AppCompatActivity {
 
     SQLite sqLite= new SQLite(this, Var.Name_databasae_sqlite,null,1);
 
-    Button btn_xn,btn_huy;
+    TextView btn_xn,btn_huy;
     RadioGroup radioGroup;
     RadioButton rad_dem_so,rad_lay_so;// radio bộ đếm số, bộ lấy số
     EditText txt_id,txt_printid; //nhập id và giới hạn số

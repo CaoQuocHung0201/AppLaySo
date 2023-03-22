@@ -7,6 +7,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,14 +45,17 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     SQLite sqLite= new SQLite(this, Var.Name_databasae_sqlite,null,1);
 
     TextView txt_bds_id,txt_bds_da_xu_ly,txt_bds_hang_cho,txt_bds_num, txtDate;
-    Button btn_bds_nhac_lai,btn_bds_next;
+    TextView btn_bds_nhac_lai,btn_bds_next;
     ImageView imgv_bds_ic_setting,imgv_bds_ic_out;
 
     int so_da_xu_ly,hang_cho_so,so_chinh;
     String id;
-    MediaPlayer mediaPlayer;
 
-    int start_media,end_media;
+    MediaPlayer mp0,mp1,mp2,mp3,mp4,mp5,mp6,mp7,mp8,mp9;
+    int dv=0,c=0,tr=0;
+    String sc;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +71,9 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
             public void onClick(View v) {
                 tinh_so();
                 set_so();
-                cd_btn_bds_next();
                 doc_so();
-
+                btn_bds_next.setEnabled(false);
+                btn_bds_next.setBackgroundResource(R.drawable.button_disable);
             }
         });
         btn_bds_nhac_lai.setOnClickListener(new View.OnClickListener() {
@@ -82,18 +88,6 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                 startActivity(new Intent(Activity_Bo_dem_so.this,Activity_Setting.class));
-//                AlertDialog.Builder dialog=new AlertDialog.Builder(Activity_Bo_dem_so.this);
-//                dialog.setTitle("Sửa tên");
-//                input = new EditText(Activity_Bo_dem_so.this);
-//                dialog.setView(input);
-//                dialog.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String data = input.getText().toString();
-//                        Toast.makeText(Activity_Bo_dem_so.this, ""+data, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                dialog.show();
             }
         });
 
@@ -156,65 +150,355 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     // đọc số
     private void doc_so(){
-        end_media=1000;
-        // vị trí số đọc
-        switch (so_chinh){
+        anh_xa_mp();
+        MediaPlayer mp_xc=MediaPlayer.create(this,R.raw.soruce_xin_moi_so);
+        sc=String.valueOf(so_chinh);
+
+
+        mp_xc.start();
+        mp_xc.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (so_chinh<10){
+                    dv=so_chinh;
+                    mp_don_vi();
+                }
+                else if (so_chinh >=10 && so_chinh <=99){
+                    c=Integer.valueOf((String) sc.substring(0,1));
+                    dv=Integer.valueOf((String) sc.substring(1,2));
+                    mp_chuc();
+                }else if(so_chinh>=100 && so_chinh<=999){
+                    c=Integer.valueOf((String) sc.substring(1,2));
+                    dv=Integer.valueOf((String) sc.substring(2,3));
+                    tr = Integer.valueOf((String) sc.substring(0,1));
+                    mp_tram();
+                }
+
+            }
+        });
+
+    }
+
+    private void mp_tram(){
+        anh_xa_mp();
+        switch (tr){
             case 1:
-                start_media=3000;
+                mp1.start();
+                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_chuc();
+                    }
+                });
                 break;
             case 2:
-                start_media=4000;
+                mp2.start();
+                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_chuc();
+                    }
+                });
                 break;
             case 3:
-                start_media=5500;
+                mp3.start();
+                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp3.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 4:
-                start_media=6500;
+                mp4.start();
+                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp4.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 5:
-                start_media=8000;
+                mp5.start();
+                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp5.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 6:
-                start_media=9000;
+                mp6.start();
+                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp6.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 7:
-                start_media=10500;
+                mp7.start();
+                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp7.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 8:
-                start_media=11500;
+                mp8.start();
+                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp8.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
             case 9:
-                start_media=12500;
+                mp9.start();
+                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp9.stop();
+                        mp_chuc();
+                    }
+                });
                 break;
-            case 10:
-                start_media=14000;
+            default:
+                mp_chuc();
                 break;
         }
+    }
 
+    private void mp_chuc(){
+        anh_xa_mp();
+        switch (c){
+            case 0:
+                mp0.start();
+                mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 1:
+                mp1.start();
+                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 2:
+                mp2.start();
+                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 3:
+                mp3.start();
+                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp3.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 4:
+                mp4.start();
+                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp4.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 5:
+                mp5.start();
+                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp5.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 6:
+                mp6.start();
+                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp6.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 7:
+                mp7.start();
+                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp7.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 8:
+                mp8.start();
+                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp8.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            case 9:
+                mp9.start();
+                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp9.stop();
+                        mp_don_vi();
+                    }
+                });
+                break;
+            default:
+                mp_don_vi();
+                break;
+        }
+    }
 
-        mediaPlayer=MediaPlayer.create(this,R.raw.sound_1_10);
-//        try {
-            mediaPlayer.seekTo(start_media);
-            mediaPlayer.start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    private void mp_don_vi(){
+        anh_xa_mp();
+        switch (dv){
+            case 0:
+                mp0.start();
+                mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 1:
+                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 2:
+                mp2.start();
+                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 3:
+                mp3.start();
+                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 4:
+                mp4.start();
+                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 5:
+                mp5.start();
+                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 6:
+                mp6.start();
+                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 7:
+                mp7.start();
+                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 8:
+                mp8.start();
+                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+            case 9:
+                mp9.start();
+                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        btn_bds_next.setEnabled(true);
+                        btn_bds_next.setBackgroundResource(R.drawable.button);
+                    }
+                });
+                break;
+        }
+    }
+    private void anh_xa_mp(){
 
-        //stop media
-        Handler  handler = new Handler();
-        final int[] i = {0};
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                i[0] = i[0] +1;
-                if (end_media== i[0]) {
-                    mediaPlayer.stop();
-                    handler.removeMessages(0);
-                }
-                handler.postDelayed(this, 1);
-            }
-        };
-        handler.postDelayed(r, 0);
+        //media
+        mp0=MediaPlayer.create(this,R.raw.soruce_0);
+        mp1=MediaPlayer.create(this,R.raw.soruce_1);
+        mp2=MediaPlayer.create(this,R.raw.soruce_2);
+        mp3=MediaPlayer.create(this,R.raw.soruce_3);
+        mp4=MediaPlayer.create(this,R.raw.soruce_4);
+        mp5=MediaPlayer.create(this,R.raw.soruce_5);
+        mp6=MediaPlayer.create(this,R.raw.soruce_6);
+        mp7=MediaPlayer.create(this,R.raw.soruce_7);
+        mp8=MediaPlayer.create(this,R.raw.soruce_8);
+        mp9=MediaPlayer.create(this,R.raw.soruce_9);
     }
     //----------------------------------------------------------------------------------------------
 
@@ -256,24 +540,23 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
 
     // đợi time hồi khi nhấn số tiếp
-    private void cd_btn_bds_next(){
-        final int[] i = {0};
-        btn_bds_next.setEnabled(false);
-        Handler handler = new Handler();
-
-        //thời gian cd
-        int time=5;
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                i[0] = i[0] +1;
-                if (time==i[0])
-                    btn_bds_next.setEnabled(true);
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.postDelayed(r, 0);
-    }
+//    private void cd_btn_bds_next(){
+//        final int[] i = {0};
+//        btn_bds_next.setEnabled(false);
+//        Handler handler = new Handler();
+//
+//        //thời gian cd
+//        int time=5;
+//        final Runnable r = new Runnable() {
+//            public void run() {
+//                i[0] = i[0] +1;
+//                if (time==i[0])
+//                    btn_bds_next.setEnabled(true);
+//                handler.postDelayed(this, 1000);
+//            }
+//        };
+//        handler.postDelayed(r, 0);
+//    }
     //---------------------------------------------------------------------------------------------
 
     //up DatabaseReference

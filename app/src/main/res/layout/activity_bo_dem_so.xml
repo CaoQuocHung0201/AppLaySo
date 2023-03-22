@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tên"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     android:textColor="#0B5FC6"
                     android:id="@+id/bds_id"/>
             </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Đã xử lý:"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textColor="#0B5FC6"
                 android:id="@+id/bds_da_xu_ly"/>
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hàng đợi"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textColor="#0B5FC6"
                 android:id="@+id/bds_hang_cho"/>
         </LinearLayout>
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="Ngày:"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textColor="#0B5FC6"
             android:id="@+id/txtDate"/>
     </LinearLayout>
@@ -96,34 +96,43 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/bds_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ff0000"
-            android:text="00"
             android:layout_marginBottom="50dp"
-            android:textStyle="bold"
-            android:textSize="90sp"
-            android:id="@+id/bds_number"/>
+            android:text="00"
+            android:textColor="#ff0000"
+            android:textSize="140sp"
+            android:textStyle="bold" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="50dp" >
-            <Button
-                android:background="@drawable/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Nhắc lại"
+
+            <TextView
                 android:id="@+id/bds_nhac_lai"
-                />
-            <Button
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/button"
+                android:padding="20dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:text="Nhắc lại"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button"
+                android:padding="20dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
                 android:text="Số kế tiếp"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
                 android:id="@+id/bds_next_num"
                 />
         </LinearLayout>
