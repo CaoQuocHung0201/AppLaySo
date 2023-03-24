@@ -85,18 +85,22 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         btn_bds_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tinh_so();
-                set_so();
-                doc_so();
-                btn_bds_next.setEnabled(false);
-                btn_bds_next.setBackgroundResource(R.drawable.button_disable);
+                if(so_chinh>=1 && hang_cho_so!=0){
+                    tinh_so();
+                    set_so();
+                    doc_so();
+                    btn_bds_next.setEnabled(false);
+                    btn_bds_next.setBackgroundResource(R.drawable.button_disable);
+                }else Toast.makeText(Activity_Bo_dem_so.this, "Đã hết hàng đợi", Toast.LENGTH_SHORT).show();
+
             }
         });
         btn_bds_nhac_lai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (so_chinh>=1)
+                if (so_chinh>=1 && hang_cho_so!=0)
                     doc_so();
+                else Toast.makeText(Activity_Bo_dem_so.this, "Đã hết hàng đợi", Toast.LENGTH_SHORT).show();
             }
         });
         imgv_bds_ic_setting.setOnClickListener(new View.OnClickListener() {
@@ -176,8 +180,6 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         anh_xa_mp();
         MediaPlayer mp_xc=MediaPlayer.create(this,R.raw.source_xmps);
         sc=String.valueOf(so_chinh);
-
-
         mp_xc.start();
         mp_xc.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override

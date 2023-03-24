@@ -4,17 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.print.PrinterCapabilitiesInfo;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,8 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.hduy.app_lay_so.Controller.Bluetooth.PrintBluetooth;
-import com.hduy.app_lay_so.Controller.Check_internet;
-import com.hduy.app_lay_so.Controller.String_utf8;
 import com.hduy.app_lay_so.Models.Database_setting;
 import com.hduy.app_lay_so.Models.SQLite;
 import com.hduy.app_lay_so.Models.Var;
@@ -58,7 +51,6 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bo_lay_so);
-
 //        int SDK_INT = android.os.Build.VERSION.SDK_INT;
 //        if (SDK_INT > 8)
 //        {
@@ -80,21 +72,6 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //ẩn thanh thông báo
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        // kiểm tra check internet
-        if (Check_internet.isNetworkAvaliable(this)==false){
-            AlertDialog.Builder dialog=new AlertDialog.Builder(Activity_Bo_Lay_so.this);
-            dialog.setTitle("Thông báo");
-            dialog.setMessage("Không có kết nối wifi!");
-            dialog.setCancelable(true);
-            dialog.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            dialog.show();
-        }
 
         anhxa();
         get_time();
@@ -118,7 +95,7 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
                     hang_cho_so=hang_cho_so+1;
                     txt_bls_num.setText(String.valueOf(so_chinh));
                     up_DatabaseReference();
-//                    printNumberSocket();
+                    //printNumberSocket();
 
                 }
             }
@@ -140,19 +117,11 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
             // Print 10 ascending order numbers
 
             String txt="-------------------\n";
-            txt += "Thoi gian: "+1+"\n";
-            txt += "So thu tu: "+3+"\n";
-            txt +="-------------------\n\n\n\n\n\n\n\n\n\n\n";
-
-            byte[] format = { 27, 33, 0 };
-
-            // Bold size
-            format[2] = ((byte)(0x490 ));
-
-
+            txt += "Thời gian: "+1+"\n";
+            txt += "Số thứ tự: "+3+"\n";
+            txt +="-------------------\n";
 
             byte[] numberBytes = txt.getBytes();
-            outputStream.write(format);
             outputStream.write(numberBytes);
             outputStream.write("\n".getBytes());
 
@@ -212,24 +181,17 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         mydata.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue()==null){
-                    finish();
-                    startActivity(new Intent(Activity_Bo_Lay_so.this,Activity_Setting.class));
-                }
-                else{
-                    Database_setting database_setting = snapshot.getValue(Database_setting.class);
-                    so_chinh = database_setting.getSo_chinh_bls();
-                    hang_cho_so = database_setting.getHang_cho_so();
-                    so_da_xu_ly = database_setting.getSo_da_xu_ly();
-                    txt_bls_num.setText(String.valueOf(so_chinh));
-                }
-//                Log.d("aaa",snapshot.getValue()+"");
+                Database_setting database_setting  = snapshot.getValue(Database_setting.class);
+                so_chinh=database_setting.getSo_chinh_bls();
+                hang_cho_so=database_setting.getHang_cho_so();
+                so_da_xu_ly=database_setting.getSo_da_xu_ly();
+
+                txt_bls_num.setText(String.valueOf(so_chinh));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                finish();
-                startActivity(new Intent(Activity_Bo_Lay_so.this,Activity_Setting.class));
+
             }
         });
     }

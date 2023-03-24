@@ -105,8 +105,8 @@ public class Activity_Setting extends AppCompatActivity {
         rad_lay_so.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt_printid.setVisibility(View.GONE);
-                label.setVisibility(View.GONE);
+                txt_printid.setVisibility(View.INVISIBLE);
+                label.setVisibility(View.INVISIBLE);
             }
         });
 

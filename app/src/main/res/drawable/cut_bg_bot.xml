@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item
-        android:drawable="#ffffff">
-    </item>
 
-    <item>
+    <item android:width="10000dp">
         <rotate
             android:fromDegrees="-10"
-            android:pivotX="50%"
-            android:pivotY="80%">
+            android:pivotX="13%"
+            android:pivotY="100%">
             <shape
                 android:shape="rectangle">
                 <solid android:color="#bdd5fe" />
@@ -16,16 +13,18 @@
             </shape>
         </rotate>
     </item>
-</layer-list>
-    <!--    <item>-->
-    <!--        <rotate-->
-    <!--            android:fromDegrees="10"-->
-    <!--            android:pivotX="70%"-->
-    <!--            android:pivotY="40%">-->
-    <!--            <shape-->
-    <!--                android:shape="rectangle">-->
-    <!--                <solid android:color="#e0ebff" />-->
+    <item android:width="10000dp">
+        <rotate
+            android:fromDegrees="15"
+            android:pivotX="0%"
+            android:pivotY="0%">
+            <shape
+                android:shape="rectangle">
+                <solid android:color="#e0ebff" />
 
-    <!--            </shape>-->
-    <!--        </rotate>-->
-    <!--    </item>-->
+            </shape>
+        </rotate>
+    </item>
+
+
+</layer-list>
