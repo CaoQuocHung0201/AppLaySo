@@ -4,170 +4,213 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_two_color"
+    android:id="@+id/background_bodemso"
     tools:context=".Views.Activity_Bo_dem_so">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_blue_radius"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/bds_number"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/bg_white_radius"
-            android:gravity="center"
-            android:padding="25dp"
-            android:text="00"
-            android:textColor="#1e2979"
-            android:textSize="150sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Đang xử lý"
-            android:textColor="#ffffff"
-            android:textSize="25sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/bds_ic_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:src="@drawable/icon_settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView6" />
-
-        <ImageView
-            android:id="@+id/bds_ic_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_output"
-            app:layout_constraintEnd_toStartOf="@+id/bds_ic_setting"
-            app:layout_constraintTop_toTopOf="@+id/bds_ic_setting" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/bds_ic_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_weight="1"
+        android:src="@drawable/icon_settings"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/bds_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Tên cơ quan"
-        android:textColor="#1e2979"
+        android:textColor="#ffffff"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintBottom_toBottomOf="@+id/bds_ic_setting"
+        app:layout_constraintEnd_toStartOf="@+id/bds_ic_setting"
+        app:layout_constraintStart_toEndOf="@+id/bds_ic_out" />
 
-    <TextView
-        android:id="@+id/txtDate"
+    <ImageView
+        android:id="@+id/bds_ic_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ngày:"
-        android:textColor="#1e2979"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bds_hang_cho" />
-
-    <TextView
-        android:id="@+id/bds_da_xu_ly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đã xử lý:"
-        android:textColor="#1e2979"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bds_id" />
-
-    <TextView
-        android:id="@+id/bds_hang_cho"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hàng đợi"
-        android:textColor="#1e2979"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bds_da_xu_ly" />
+        android:layout_weight="1"
+        android:src="@drawable/ic_output"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/bds_ic_setting" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/bg1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/cut_bg_bot"
+        android:background="@drawable/bg_blue_radius"
+        android:elevation="20dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout">
+
+        <TextView
+            android:id="@+id/bds_da_xu_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Đã xử lý:"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày:"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/bds_hang_cho"
+            app:layout_constraintTop_toBottomOf="@+id/bds_hang_cho" />
+
+        <TextView
+            android:id="@+id/bds_hang_cho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Hàng đợi"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Giờ"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/bds_da_xu_ly"
+            app:layout_constraintTop_toBottomOf="@+id/bds_da_xu_ly" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="380dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_while_radius"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/bds_number"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/one_border"
+            android:gravity="center"
+            android:text="00"
+            android:textAlignment="inherit"
+            android:textColor="#0a0c9d"
+            android:textSize="200sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/bg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ĐANG XỬ LÝ"
+            android:textColor="#3132b7"
+            android:textIsSelectable="false"
+            android:textSize="40sp"
+            android:textStyle="normal|bold"
+            app:layout_constraintBottom_toTopOf="@+id/bds_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/bds_nhac_lai"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bgwhite_borderyellow"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_back"
             android:padding="12dp"
-            android:text="NHẮC LẠI"
             android:textAlignment="center"
             android:textColor="#1e2979"
             android:textSize="25dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/bds_next_num"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/bds_next_num"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/gradient_bg_notborder"
+            android:background="@drawable/btn_next"
             android:padding="12dp"
-            android:text="SỐ TIẾP THEO"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="25dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/bds_nhac_lai" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="NHẮC LẠI"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bds_nhac_lai"
+            app:layout_constraintStart_toStartOf="@+id/bds_nhac_lai"
+            app:layout_constraintTop_toBottomOf="@+id/bds_nhac_lai" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TIẾP THEO"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bds_next_num"
+            app:layout_constraintStart_toStartOf="@+id/bds_next_num"
+            app:layout_constraintTop_toBottomOf="@+id/bds_next_num" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

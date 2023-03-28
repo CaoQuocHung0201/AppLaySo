@@ -16,6 +16,7 @@ import com.hduy.app_lay_so.Models.Var;
 import com.hduy.app_lay_so.Views.Activity_Bo_Lay_so;
 import com.hduy.app_lay_so.Views.Activity_Bo_dem_so;
 import com.hduy.app_lay_so.Views.Activity_Setting;
+import com.hduy.app_lay_so.Views.Activity_Tivi;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,9 +47,12 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(MainActivity.this, Activity_Bo_dem_so.class));
         }
-        else{
+        else if (getdata.getString(2).equals(Var.rad_bls)){
             finish();
             startActivity(new Intent(MainActivity.this, Activity_Bo_Lay_so.class));
+        }else {
+            finish();
+            startActivity(new Intent(MainActivity.this, Activity_Tivi.class));
         }
 //        startActivity(new Intent(MainActivity.this, Activity_Setting.class));
     }

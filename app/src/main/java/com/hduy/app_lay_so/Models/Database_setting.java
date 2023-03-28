@@ -68,4 +68,5 @@ public class Database_setting {
     public void setIpPrint(String ipPrint) {
         this.ipPrint = ipPrint;
     }
+
 }

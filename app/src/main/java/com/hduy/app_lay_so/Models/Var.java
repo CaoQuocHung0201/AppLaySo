@@ -11,6 +11,7 @@ public class Var {
 
     public static String rad_bds="bds";
     public static String rad_bls="bls";
+    public static String rad_tv="tivi";
 
     public static DatabaseReference mydata=FirebaseDatabase.getInstance().getReference();
     // child
