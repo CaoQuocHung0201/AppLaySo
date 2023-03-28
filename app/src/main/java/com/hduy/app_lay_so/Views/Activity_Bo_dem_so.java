@@ -57,7 +57,8 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     String id;
 
     MediaPlayer mp0, mp1, mp2, mp3, mp4, mp5, mp6, mp7, mp8, mp9;
-    int dv = 0, c = 0, tr = 0;
+    MediaPlayer mp_xc;
+    int dv = 0, c = 0, tr = 0;int seek=85;
     String sc;
 
 
@@ -103,6 +104,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         btn_bds_nhac_lai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_bds_nhac_lai.setEnabled(false);
                 if (so_chinh > 0)
                     doc_so();
                 else
@@ -184,44 +186,63 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     // đọc số
     private void doc_so() {
         anh_xa_mp();
+        sc = String.valueOf(so_chinh);
+
         MediaPlayer mp_tb = MediaPlayer.create(this, R.raw.source_tb);
-        MediaPlayer mp_xc = MediaPlayer.create(this, R.raw.source_xmps);
+        mp_xc = MediaPlayer.create(this, R.raw.source_xmps);
         mp_tb.start();
         mp_tb.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp_xc.start();
+                stop_mp();
+
             }
         });
 
 
-        sc = String.valueOf(so_chinh);
-        mp_xc.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (so_chinh < 10) {
-                    dv = so_chinh;
-                    mp_don_vi();
-                } else if (so_chinh >= 10 && so_chinh <= 99) {
-                    c = Integer.valueOf((String) sc.substring(0, 1));
-                    dv = Integer.valueOf((String) sc.substring(1, 2));
-                    mp_chuc();
-                } else if (so_chinh >= 100 && so_chinh <= 999) {
-                    c = Integer.valueOf((String) sc.substring(1, 2));
-                    dv = Integer.valueOf((String) sc.substring(2, 3));
-                    tr = Integer.valueOf((String) sc.substring(0, 1));
-                    mp_tram();
+
+
+
+    }
+
+    private void stop_mp(){
+        int end_media=1000;
+        //stop media
+        Handler  handler = new Handler();
+        final int[] i = {0};
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                i[0] = i[0] +1;
+                if (end_media== i[0]) {
+                    mp_xc.stop();
+                    if (so_chinh < 10) {
+                        dv = so_chinh;
+                        mp_don_vi();
+                    } else if (so_chinh >= 10 && so_chinh <= 99) {
+                        c = Integer.valueOf((String) sc.substring(0, 1));
+                        dv = Integer.valueOf((String) sc.substring(1, 2));
+                        mp_chuc();
+                    } else if (so_chinh >= 100 && so_chinh <= 999) {
+                        c = Integer.valueOf((String) sc.substring(1, 2));
+                        dv = Integer.valueOf((String) sc.substring(2, 3));
+                        tr = Integer.valueOf((String) sc.substring(0, 1));
+                        mp_tram();
+                    }
+                    handler.removeMessages(0);
                 }
-
+                handler.postDelayed(this, 1);
             }
-        });
-
+        };
+        handler.postDelayed(r, 0);
     }
 
     private void mp_tram() {
         anh_xa_mp();
         switch (tr) {
             case 1:
+                mp1.seekTo(seek);
                 mp1.start();
                 mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -231,6 +252,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 2:
+                mp2.seekTo(seek);
                 mp2.start();
                 mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -240,6 +262,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 3:
+                mp3.seekTo(seek);
                 mp3.start();
                 mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -249,6 +272,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 4:
+                mp4.seekTo(seek);
                 mp4.start();
                 mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -259,6 +283,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 5:
+                mp5.seekTo(seek);
                 mp5.start();
                 mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -269,6 +294,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 6:
+                mp6.seekTo(seek);
                 mp6.start();
                 mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -279,6 +305,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 7:
+                mp7.seekTo(seek);
                 mp7.start();
                 mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -289,6 +316,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 8:
+                mp8.seekTo(seek);
                 mp8.start();
                 mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -299,6 +327,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 9:
+                mp9.seekTo(seek);
                 mp9.start();
                 mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -316,6 +345,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
         switch (c) {
             case 0:
                 mp0.start();
+                mp0.seekTo(seek);
                 mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
@@ -324,6 +354,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 1:
+                mp1.seekTo(seek);
                 mp1.start();
                 mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -333,6 +364,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 2:
+                mp2.seekTo(seek);
                 mp2.start();
                 mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -342,6 +374,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 3:
+                mp3.seekTo(seek);
                 mp3.start();
                 mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -352,6 +385,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 4:
+                mp4.seekTo(seek);
                 mp4.start();
                 mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -362,6 +396,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 5:
+                mp5.seekTo(seek);
                 mp5.start();
                 mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -372,6 +407,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 6:
+                mp6.seekTo(seek);
                 mp6.start();
                 mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -382,6 +418,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 7:
+                mp7.seekTo(seek);
                 mp7.start();
                 mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -392,6 +429,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 8:
+                mp8.seekTo(seek);
                 mp8.start();
                 mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -402,6 +440,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 9:
+                mp9.seekTo(seek);
                 mp9.start();
                 mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -416,8 +455,10 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     private void mp_don_vi() {
         anh_xa_mp();
+
         switch (dv) {
             case 0:
+                mp0.seekTo(seek);
                 mp0.start();
                 mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -427,6 +468,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 1:
+                mp1.seekTo(seek);
                 mp1.start();
                 mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -436,6 +478,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 2:
+                mp2.seekTo(seek);
                 mp2.start();
                 mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -445,6 +488,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 3:
+                mp3.seekTo(seek);
                 mp3.start();
                 mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -454,6 +498,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 4:
+                mp4.seekTo(seek);
                 mp4.start();
                 mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -463,6 +508,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 5:
+                mp5.seekTo(seek);
                 mp5.start();
                 mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -472,6 +518,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 6:
+                mp6.seekTo(seek);
                 mp6.start();
                 mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -481,6 +528,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 7:
+                mp7.seekTo(seek);
                 mp7.start();
                 mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -490,6 +538,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 8:
+                mp8.seekTo(seek);
                 mp8.start();
                 mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -499,6 +548,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
                 });
                 break;
             case 9:
+                mp9.seekTo(seek);
                 mp9.start();
                 mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -517,6 +567,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 btn_bds_next.setEnabled(true);
+                btn_bds_nhac_lai.setEnabled(true);
                 //btn_bds_next.setBackgroundResource(R.drawable.gradient_bg_notborder);
             }
         });
