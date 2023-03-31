@@ -154,6 +154,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:elevation="10dp"
             android:id="@+id/bds_nhac_lai"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -169,6 +170,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:elevation="10dp"
             android:id="@+id/bds_next_num"
             android:layout_width="80dp"
             android:layout_height="80dp"

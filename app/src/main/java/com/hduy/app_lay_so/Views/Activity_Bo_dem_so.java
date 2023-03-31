@@ -14,10 +14,12 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -58,7 +60,7 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
 
     MediaPlayer mp0, mp1, mp2, mp3, mp4, mp5, mp6, mp7, mp8, mp9;
     MediaPlayer mp_xc;
-    int dv = 0, c = 0, tr = 0;int seek=85;
+    int dv = 0, c = 0, tr = 0;
     String sc;
 
 
@@ -66,7 +68,10 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bo_dem_so);
-
+        //luôn sáng màn hình
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //ẩn thanh thông báo
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         anhxa();
         get_data_sqlite();
         get_DatabaseReference();
@@ -187,7 +192,6 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
     private void doc_so() {
         anh_xa_mp();
         sc = String.valueOf(so_chinh);
-
         MediaPlayer mp_tb = MediaPlayer.create(this, R.raw.source_tb);
         mp_xc = MediaPlayer.create(this, R.raw.source_xmps);
         mp_tb.start();
@@ -195,367 +199,567 @@ public class Activity_Bo_dem_so extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp_xc.start();
-                stop_mp();
-
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mp_xc.stop();
+                        if (so_chinh < 10) {
+                            dv = so_chinh;
+                            mp_don_vi();
+                        } else if (so_chinh >= 10 && so_chinh <= 99) {
+                            c = Integer.valueOf((String) sc.substring(0, 1));
+                            dv = Integer.valueOf((String) sc.substring(1, 2));
+                            mp_chuc();
+                        } else if (so_chinh >= 100 && so_chinh <= 999) {
+                            c = Integer.valueOf((String) sc.substring(1, 2));
+                            dv = Integer.valueOf((String) sc.substring(2, 3));
+                            tr = Integer.valueOf((String) sc.substring(0, 1));
+                            mp_tram();
+                        }
+                    }
+                }, 1000);
             }
         });
 
-
-
-
-
     }
 
-    private void stop_mp(){
-        int end_media=1000;
-        //stop media
-        Handler  handler = new Handler();
-        final int[] i = {0};
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                i[0] = i[0] +1;
-                if (end_media== i[0]) {
-                    mp_xc.stop();
-                    if (so_chinh < 10) {
-                        dv = so_chinh;
-                        mp_don_vi();
-                    } else if (so_chinh >= 10 && so_chinh <= 99) {
-                        c = Integer.valueOf((String) sc.substring(0, 1));
-                        dv = Integer.valueOf((String) sc.substring(1, 2));
-                        mp_chuc();
-                    } else if (so_chinh >= 100 && so_chinh <= 999) {
-                        c = Integer.valueOf((String) sc.substring(1, 2));
-                        dv = Integer.valueOf((String) sc.substring(2, 3));
-                        tr = Integer.valueOf((String) sc.substring(0, 1));
-                        mp_tram();
-                    }
-                    handler.removeMessages(0);
-                }
-                handler.postDelayed(this, 1);
-            }
-        };
-        handler.postDelayed(r, 0);
-    }
+//    private void stop_mp(){
+//        int end_media=1000;
+//        //stop media
+//        Handler  handler = new Handler();
+//        final int[] i = {0};
+//
+//        final Runnable r = new Runnable() {
+//            public void run() {
+//                i[0] = i[0] +1;
+//                if (end_media== i[0]) {
+//                    mp_xc.stop();
+//                    if (so_chinh < 10) {
+//                        dv = so_chinh;
+//                        mp_don_vi();
+//                    } else if (so_chinh >= 10 && so_chinh <= 99) {
+//                        c = Integer.valueOf((String) sc.substring(0, 1));
+//                        dv = Integer.valueOf((String) sc.substring(1, 2));
+//                        mp_chuc();
+//                    } else if (so_chinh >= 100 && so_chinh <= 999) {
+//                        c = Integer.valueOf((String) sc.substring(1, 2));
+//                        dv = Integer.valueOf((String) sc.substring(2, 3));
+//                        tr = Integer.valueOf((String) sc.substring(0, 1));
+//                        mp_tram();
+//                    }
+//                    handler.removeMessages(0);
+//                }
+//                handler.postDelayed(this, 1);
+//            }
+//        };
+//        handler.postDelayed(r, 0);
+//    }
 
     private void mp_tram() {
+        final Handler handler = new Handler(Looper.getMainLooper());
         anh_xa_mp();
         switch (tr) {
             case 1:
-                mp1.seekTo(seek);
                 mp1.start();
-                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp1.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 2:
-                mp2.seekTo(seek);
                 mp2.start();
-                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp2.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 3:
-                mp3.seekTo(seek);
                 mp3.start();
-                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp3.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 4:
-                mp4.seekTo(seek);
                 mp4.start();
-                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp4.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp4.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 5:
-                mp5.seekTo(seek);
                 mp5.start();
-                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp5.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp5.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 6:
-                mp6.seekTo(seek);
                 mp6.start();
-                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp6.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp6.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 7:
-                mp7.seekTo(seek);
                 mp7.start();
-                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp7.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp7.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 8:
-                mp8.seekTo(seek);
                 mp8.start();
-                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp8.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp8.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
             case 9:
-                mp9.seekTo(seek);
                 mp9.start();
-                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp9.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp9.stop();
                         mp_chuc();
                     }
-                });
+                }, 400);
                 break;
         }
     }
 
     private void mp_chuc() {
+        final Handler handler = new Handler(Looper.getMainLooper());
         anh_xa_mp();
         switch (c) {
             case 0:
                 mp0.start();
-                mp0.seekTo(seek);
-                mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp0.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 1:
-                mp1.seekTo(seek);
                 mp1.start();
-                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp1.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 2:
-                mp2.seekTo(seek);
                 mp2.start();
-                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp2.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 3:
-                mp3.seekTo(seek);
                 mp3.start();
-                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp3.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 4:
-                mp4.seekTo(seek);
                 mp4.start();
-                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp4.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp4.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 5:
-                mp5.seekTo(seek);
                 mp5.start();
-                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp5.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp5.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 6:
-                mp6.seekTo(seek);
                 mp6.start();
-                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp6.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp6.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 7:
-                mp7.seekTo(seek);
                 mp7.start();
-                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp7.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp7.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 8:
-                mp8.seekTo(seek);
                 mp8.start();
-                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp8.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp8.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
             case 9:
-                mp9.seekTo(seek);
                 mp9.start();
-                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp9.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
                         mp9.stop();
                         mp_don_vi();
                     }
-                });
+                }, 400);
                 break;
         }
     }
 
     private void mp_don_vi() {
+        final Handler handler = new Handler(Looper.getMainLooper());
         anh_xa_mp();
-
         switch (dv) {
             case 0:
-                mp0.seekTo(seek);
                 mp0.start();
-                mp0.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp0.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 1:
-                mp1.seekTo(seek);
                 mp1.start();
-                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp1.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 2:
-                mp2.seekTo(seek);
                 mp2.start();
-                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp2.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 3:
-                mp3.seekTo(seek);
                 mp3.start();
-                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp3.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 4:
-                mp4.seekTo(seek);
                 mp4.start();
-                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp4.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp4.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 5:
-                mp5.seekTo(seek);
                 mp5.start();
-                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp5.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp5.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 6:
-                mp6.seekTo(seek);
                 mp6.start();
-                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp6.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp6.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp6.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 7:
-                mp7.seekTo(seek);
                 mp7.start();
-                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp7.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp7.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp7.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 8:
-                mp8.seekTo(seek);
                 mp8.start();
-                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp8.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp8.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp8.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
             case 9:
-                mp9.seekTo(seek);
                 mp9.start();
-                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                mp9.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        mp9.stop();
+//                        mp_chuc();
+//                    }
+//                });
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void run() {
+                        mp9.stop();
                         mp_cuoi();
                     }
-                });
+                }, 400);
                 break;
         }
     }

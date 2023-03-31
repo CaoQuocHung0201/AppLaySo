@@ -34,7 +34,7 @@
             android:text="SỐ HIỆN TẠI"
             android:textAlignment="center"
             android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -50,12 +50,20 @@
             android:text="00"
             android:textAlignment="center"
             android:textColor="#0a0c9d"
-            android:textSize="180sp"
+            android:textSize="210sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <ImageView
+            android:id="@+id/imgQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            tools:srcCompat="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -64,12 +72,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="More Fonts..."
         android:includeFontPadding="false"
         android:text="Vui lòng chạm để lấy số thứ tự!"
         android:textAlignment="center"
         android:textColor="#ffffff"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/bls_lay_so"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +110,7 @@
         android:text="LẤY SỐ"
         android:textAlignment="center"
         android:textColor="#ffffff"
-        android:textSize="24sp"
+        android:textSize="60sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/bls_time"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
