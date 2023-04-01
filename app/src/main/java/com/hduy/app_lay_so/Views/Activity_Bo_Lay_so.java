@@ -191,7 +191,7 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
 
             // qr code
             String qrData = "https://seokit.biz/danh-thiep/14953";
-            int qrCodeDimention = 150; // kích thước mã QR code
+            int qrCodeDimention = 15; // kích thước mã QR code
             MultiFormatWriter multiFormatWriter=new MultiFormatWriter();
             try {
                 BitMatrix bitMatrix=multiFormatWriter.encode(qrData,BarcodeFormat.QR_CODE,qrCodeDimention,qrCodeDimention);
