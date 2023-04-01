@@ -7,10 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
+import android.util.Printer;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,26 +21,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.EncodingUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatReader;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.hduy.app_lay_so.Controller.PrintPic;
+import com.hduy.app_lay_so.Controller.Util;
 import com.hduy.app_lay_so.Models.Database_setting;
 import com.hduy.app_lay_so.Models.SQLite;
 import com.hduy.app_lay_so.Models.Var;
 import com.hduy.app_lay_so.R;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -54,6 +64,13 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
     int so_chinh, so_da_xu_ly, hang_cho_so;
     String id, print_id_bt;
 
+    Bitmap bitmap;
+
+    Thread workerThread;
+    byte[] readBuffer;
+    int readBufferPosition;
+    int counter;
+    volatile boolean stopWorker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +85,40 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
         get_data_sqlite();
         get_DatabaseReference();
 
+        String data = "https://seokit.biz/danh-thiep/14953";
+        QRCodeWriter writer = new QRCodeWriter();
+        try {
+            BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, 150, 150);
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            ImageView imageView = findViewById(R.id.imgQR);
+            imageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
         btn_bls_lay_so.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                String txt0 ="UBND Huyện Bình Đại\n\n";
+//                ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(txt0);
+//
+//                String utf8String = new String(byteBuffer.array(), Charset.forName("Cp1258"));
+//                Log.d("AAA",utf8String);
+//
+//                try {
+//                    String out=new String(txt0.getBytes(StandardCharsets.UTF_8),"Cp1258");
+//                    Log.d("AAA",out);
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
 
 
                 int SDK_INT = android.os.Build.VERSION.SDK_INT;
@@ -100,87 +148,63 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
             OutputStream printerOutputStream = printerSocket.getOutputStream();
             String currentDate = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-            String txt = "UBND Huyện Bình Đại";
-            String txtsochinh = so_chinh + "\n\n";
+            String txt = so_chinh + "\n\n";
+            String txt2 = currentDate + "\n";
+            txt2 += "www.phamthanh.vn\n";
+            txt2 += "Hotline: 0987720307\n";
+
             byte[] centerAlign = new byte[]{0x1B, 0x61, 0x01};
-            byte[] cutCommand = new byte[] { 0x1B, 0x00, 0x01, 0x1D, 0x56, 0x42, 0x01 };
+
+            byte[] cutCommand = new byte[] { 0x1B, 0x64, 0x00, 0x1D, 0x56, 0x42, 0x01 };
+
+            byte[] textInBytes = txt.getBytes(Charset.forName("UTF-8"));
+            byte[] textInBytes2 = txt2.getBytes(Charset.forName("UTF-8"));
+
+
             byte[] doubleHeight = new byte[]{0x1D, 0x21, (byte)110};
-            byte[] textInBytes = txtsochinh.getBytes(Charset.forName("UTF-8"));
+            byte[] nomalHeight = new byte[]{0x1D, 0x21, (byte)25};
+            byte[] normalTextCommand = new byte[]{0x1B, 0x21, 0x00};
+
             printerOutputStream.write(centerAlign);
 
-            // tiêu đề
-            int width = 470; // chiều rộng bitmap
-            int height = 60; // chiều cao bitmap
+            /// tiêu đề
+            int width = 450; // chiều rộng bitmap
+            int height = 100; // chiều cao bitmap
             Bitmap bitmap_td = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap_td);
             Paint paint = new Paint();
-            paint.setTextSize(40);
+            paint.setTextSize(45);
             paint.setColor(Color.BLACK);
-            canvas.drawText(txt, 30, height / 2, paint);
+            String text = "UBND Huyện Bình Đại";
+            canvas.drawText(text, 0, height / 2, paint);
+//            canvas.drawBitmap(bitmap_td,0,0,null);
             PrintPic printPic_td = PrintPic.getInstance();
             printPic_td.init(bitmap_td);
             byte[] bitmapdata_td = printPic_td.printDraw();
             printerOutputStream.write(bitmapdata_td);
-//
-//            /// số chính
-//            int width_num = 450; // chiều rộng bitmap
-//            int height_num = 190; // chiều cao bitmap
-//            Bitmap bitmap_td_num = Bitmap.createBitmap(width_num, height_num, Bitmap.Config.ARGB_8888);
-//            Canvas canvas_num = new Canvas(bitmap_td_num);
-//            Paint paint_num = new Paint();
-//            paint_num.setTextSize(180);
-//            paint_num.setColor(Color.BLACK);
-//            String text_num = so_chinh+"";
-//            if(so_chinh>99){
-//                canvas_num.drawText(text_num, 70, height_num-60, paint_num);
-//            }else {
-//                canvas_num.drawText(text_num, 130, height_num-60, paint_num);
-//            }
-//            PrintPic printPic_td_num = PrintPic.getInstance();
-//            printPic_td_num.init(bitmap_td_num);
-//            byte[] bitmapdata_td_num = printPic_td_num.printDraw();
-//            //printerOutputStream.write(bitmapdata_td_num);
-//
-            //số chính
+
             printerOutputStream.write(doubleHeight);
             printerOutputStream.write(textInBytes);
-//
-            Bitmap bitmap_footer = Bitmap.createBitmap(200, 130, Bitmap.Config.ARGB_8888);
-            Canvas canvas2 = new Canvas(bitmap_footer);
-            Paint paint2 = new Paint();
-            paint2.setColor(Color.BLACK);
-            paint2.setTextSize(20);
 
-            String text1 = currentDate+"";
-            String text2 = "www.phamthanh.vn";
-            String text3 = "Hotline: 0987720307";
+            printerOutputStream.write(normalTextCommand);
+            printerOutputStream.write(textInBytes2);
 
-            canvas2.drawText(text1, 0, 20, paint2);
-            canvas2.drawText(text2, 0, 50, paint2);
-            canvas2.drawText(text3, 0, 80, paint2);
-//
             // qr code
             String qrData = "https://seokit.biz/danh-thiep/14953";
-            int qrCodeDimention = 130; // kích thước mã QR code
+            int qrCodeDimention = 150; // kích thước mã QR code
             MultiFormatWriter multiFormatWriter=new MultiFormatWriter();
-            BitMatrix bitMatrix=multiFormatWriter.encode(qrData,BarcodeFormat.QR_CODE,qrCodeDimention,qrCodeDimention);
-            BarcodeEncoder barcodeEncoder=new BarcodeEncoder();
-            Bitmap bitmap_qr=barcodeEncoder.createBitmap(bitMatrix);
-
-
-            int width_combie = bitmap_qr.getWidth() + bitmap_footer.getWidth();
-            int height_combie = bitmap_footer.getHeight()-30;
-            Bitmap combinedBitmap = Bitmap.createBitmap(width_combie, height_combie, Bitmap.Config.ARGB_8888);
-            Canvas canvas_combie = new Canvas(combinedBitmap);
-            canvas_combie.drawBitmap(bitmap_footer, 0f, 0f, null);
-            canvas_combie.drawBitmap(bitmap_qr, bitmap_footer.getWidth(), 0f-20, null);
-
-
-            PrintPic printPic1 = PrintPic.getInstance();
-            printPic1.init(combinedBitmap);
-            byte[] bitmapdata2 = printPic1.printDraw();
-            printerOutputStream.write(bitmapdata2);
-
+            try {
+                BitMatrix bitMatrix=multiFormatWriter.encode(qrData,BarcodeFormat.QR_CODE,qrCodeDimention,qrCodeDimention);
+                BarcodeEncoder barcodeEncoder=new BarcodeEncoder();
+                Bitmap bitmap=barcodeEncoder.createBitmap(bitMatrix);
+                PrintPic printPic1 = PrintPic.getInstance();
+                printPic1.init(bitmap);
+                byte[] bitmapdata2 = printPic1.printDraw();
+                printerOutputStream.write(bitmapdata2);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
             printerOutputStream.write(cutCommand);
             printerOutputStream.flush();
@@ -189,8 +213,8 @@ public class Activity_Bo_Lay_so extends AppCompatActivity {
             printerSocket.close();
 
         } catch (IOException e) {
-        } catch (WriterException e) {
-            throw new RuntimeException(e);
+//        } catch (SVGParseException e) {
+//            throw new RuntimeException(e);
         }
 
 
